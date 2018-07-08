@@ -4,15 +4,15 @@
 2.完善订单的信息(completeOrder)
     in:idAndCount,allItems[{id: String, name: String, price: number}...]
     out:orderItems[{id: String, name: String, price: number,count:number}...]
-3.计算订单的小计(calculateSubtotal)
+3.计算订单的小计和总价(calculateSubtotalAndAmount)
     in:orderItems
-    out:ItemsList[{id: String, name: String, price: number,count:number，subtotal:number}...]
+    out:ItemsList[id: String, name: String, price: number,count:number，subtotal:number},{amount:number}]
 4.计算价格方式一(amountInPromotion1)
-    in:orderItems,promotions{type: String, items: [String, String]}
-    out:receipt1{orderItems:[name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
+    in:ItemsList,promotions{type: String, items: [String, String]}
+    out:receipt1{orderItems:[id:String, name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
 5.计算价格方式二(amountInPromotion2)
     in:orderItems,promotions{type: String, items: [String, String]}
-    out:receipt2{orderItems:[name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
+    out:receipt2{orderItems:[id:String, name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
 6.查找最佳优惠方式(findBestPromotion)
     in：receipt1,receipt2
     out:receiptToPrint

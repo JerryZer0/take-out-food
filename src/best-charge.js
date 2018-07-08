@@ -1,4 +1,5 @@
 const {loadAllItems} = require('./items');
+const {loadPromotions} = require('./promotions');
 
 function bestCharge(selectedItems) {
   let idAndCount = turnIntoIdAndCount(selectedItems);
@@ -7,6 +8,7 @@ function bestCharge(selectedItems) {
   return receiptToPrint;
 }
 
+//格式化输入为id和数量
 function turnIntoIdAndCount(selectedItems){
   let idAndCount = [];
   for(let item of selectedItems){
@@ -19,6 +21,7 @@ function turnIntoIdAndCount(selectedItems){
   return idAndCount;
 }
 
+//完善订单的信息
 function completeOrder(idAndCount){
   const allItems = loadAllItems();
   let orderItems = [];
@@ -38,6 +41,7 @@ function completeOrder(idAndCount){
   return orderItems;
 }
 
+//计算订单中商品的小计
 function calculateSubtotal(orderItems){
   let ItemsList = [];
   for(let item of orderItems){
@@ -47,6 +51,42 @@ function calculateSubtotal(orderItems){
   return ItemsList;
 }
 
+//计算价格方式一、
+function amountInPromotion1(itemsList){
+  const temp = loadPromotions();
+  const promotions = temp[1];
+  let reduce = 0;
+  let tempAmount = 0;
+  let type = "指定菜品半价(";
+  for(item of itemsList){
+    for(promotionItem of promotions.items){
+      if(item.id === promotionItem ){
+        type += item.name;
+        reduce += item.price/2;
+        type += ",";
+        break;
+      }
+    }
+    tempAmount += item.subtotal; 
+  }
+  type = type.substring(0,type.length-1);
+  type += ")";
+  amount = tempAmount - reduce;
+  let tempObject = [{itemsList:itemsList},{type:type},{reduce:reduce},{amount:amount}];
+  return tempObject;
+}
 
 
-module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal};
+/**
+ * 4.计算价格方式一(amountInPromotion1)
+    in:orderItems,promotions{type: String, items: [String, String]}
+    out:receipt1{orderItems:[name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
+5.计算价格方式二(amountInPromotion2)
+    in:orderItems,promotions{type: String, items: [String, String]}
+    out:receipt2{orderItems:[name:String, count:number, subtotal:number,promotion:String,reduce:number,amount:number]}
+6.查找最佳优惠方式(findBestPromotion)
+    in：receipt1,receipt2
+    out:receiptToPrint
+ */
+
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1};

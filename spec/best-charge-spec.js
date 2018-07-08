@@ -1,4 +1,4 @@
-const {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal} = require('../src/best-charge');
+const {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1} = require('../src/best-charge');
 
 describe('格式化输入为id和数量', ()=> {
   const selectedItems1 = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
@@ -27,6 +27,14 @@ describe('计算商品小计', ()=> {
   })
 })
 
+describe('计算价格方式一', ()=> {
+  const orderItems = [{"id":"ITEM0001","name":"黄焖鸡","price":18,"count":"1","subtotal":18},{"id":"ITEM0013","name":"肉夹馍","price":6,"count":"2","subtotal":12},{"id":"ITEM0022","name":"凉皮","price":8,"count":"1","subtotal":8}];
+  const expected = '[{"itemsList":[{"id":"ITEM0001","name":"黄焖鸡","price":18,"count":"1","subtotal":18},{"id":"ITEM0013","name":"肉夹馍","price":6,"count":"2","subtotal":12},{"id":"ITEM0022","name":"凉皮","price":8,"count":"1","subtotal":8}]},{"type":"指定菜品半价(黄焖鸡,凉皮)"},{"reduce":13},{"amount":25}]';
+  const summary = amountInPromotion1(orderItems);
+  it('should calculate the subtotal', ()=> {
+    expect(JSON.stringify(summary)).toEqual(expected);
+  })
+})
 // describe('Take out food', ()=> {
 
 //   it('should generate best charge when best is 指定菜品半价', ()=> {
