@@ -7,7 +7,7 @@ function bestCharge(selectedItems) {
   const itemsList = calculateSubtotal(orderItems);
   const receiptObject1 =amountInPromotion1(itemsList);
   const receiptObject2 =amountInPromotion2(itemsList);
-  const receiptObject = findBestCharge(receiptObject1,receiptObject2)
+  const receiptObject = findBestPromotion(receiptObject1,receiptObject2)
   const receiptToPrint = generateReceipt(receiptObject);
   return receiptToPrint;
 }
@@ -96,7 +96,8 @@ function amountInPromotion2(itemsList){
   return tempObject;
 }
 
-function findBestCharge(receiptObject1,receiptObject2){
+//查找最优活动
+function findBestPromotion(receiptObject1,receiptObject2){
   let reduce1 = receiptObject1[2].reduce;
   let reduce2 = receiptObject2[2].reduce;
   let finalObject;
@@ -135,4 +136,4 @@ ${promotion}总计：${amount}元
 
 
 
-module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt, findBestCharge};
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt, findBestPromotion};
