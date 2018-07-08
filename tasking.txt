@@ -16,3 +16,6 @@
 6.查找最佳优惠方式(findBestPromotion)
     in：receipt1,receipt2
     out:receiptToPrint
+7.生成小票(generateReceipt)
+    in:receipt2
+    out:String
