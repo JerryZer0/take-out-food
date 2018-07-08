@@ -1,3 +1,4 @@
 function bestCharge(selectedItems) {
-  return /*TODO*/;
+  let receiptToPrint = "111";
+  return receiptToPrint;
 }
