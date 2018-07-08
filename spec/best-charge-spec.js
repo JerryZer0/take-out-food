@@ -48,7 +48,7 @@ describe('计算价格方式二', ()=> {
 describe('选择方式', ()=> {
   const receiptObject1 = [{"itemsList":[{"id":"ITEM0001","name":"黄焖鸡","price":18,"count":"1","subtotal":18},{"id":"ITEM0013","name":"肉夹馍","price":6,"count":"2","subtotal":12},{"id":"ITEM0022","name":"凉皮","price":8,"count":"1","subtotal":8}]},{"type":"指定菜品半价(黄焖鸡,凉皮)"},{"reduce":13},{"amount":25}];
   const receiptObject2 = [{"itemsList":[{"id":"ITEM0001","name":"黄焖鸡","price":18,"count":"1","subtotal":18},{"id":"ITEM0013","name":"肉夹馍","price":6,"count":"2","subtotal":12},{"id":"ITEM0022","name":"凉皮","price":8,"count":"1","subtotal":8}]},{"type":"满30减6元"},{"reduce":6},{"amount":32}];
-  const expected = 'type1';
+  const expected = [{"itemsList":[{"id":"ITEM0001","name":"黄焖鸡","price":18,"count":"1","subtotal":18},{"id":"ITEM0013","name":"肉夹馍","price":6,"count":"2","subtotal":12},{"id":"ITEM0022","name":"凉皮","price":8,"count":"1","subtotal":8}]},{"type":"指定菜品半价(黄焖鸡,凉皮)"},{"reduce":13},{"amount":25}];
   const summary = findBestCharge(receiptObject1,receiptObject2);
   it('should calculate the subtotal', ()=> {
     expect(summary).toEqual(expected);

@@ -3,8 +3,12 @@ const {loadPromotions} = require('./promotions');
 
 function bestCharge(selectedItems) {
   let idAndCount = turnIntoIdAndCount(selectedItems);
-  const allItems = loadAllItems();
-  const orderItems = completeCharge();
+  const orderItems = completeOrder(idAndCount);
+  const itemsList = calculateSubtotal(orderItems);
+  const receiptObject1 =amountInPromotion1(itemsList);
+  const receiptObject2 =amountInPromotion2(itemsList);
+  const receiptObject = findBestCharge(receiptObject1,receiptObject2)
+  const receiptToPrint = generateReceipt(receiptObject);
   return receiptToPrint;
 }
 
@@ -43,12 +47,12 @@ function completeOrder(idAndCount){
 
 //计算订单中商品的小计
 function calculateSubtotal(orderItems){
-  let ItemsList = [];
+  let itemsList = [];
   for(let item of orderItems){
     item.subtotal = item.count*item.price;
-    ItemsList.push(item);
+    itemsList.push(item);
   }
-  return ItemsList;
+  return itemsList;
 }
 
 //计算价格方式一、
@@ -89,28 +93,16 @@ function amountInPromotion2(itemsList){
   return tempObject;
 }
 
-function noPromotion(itemsList){
-  let tempAmount = 0;
-  let type = "";
-  let reduce = 0;
-  for(let item of itemsList){
-    tempAmount += item.subtotal; 
-  }
-  amount = tempAmount;
-  let tempObject = [{itemsList:itemsList},{type:type},{reduce:reduce},{amount:amount}];
-  return tempObject;
-}
-
 function findBestCharge(receiptObject1,receiptObject2){
   let reduce1 = receiptObject1[2].reduce;
   let reduce2 = receiptObject2[2].reduce;
-  let promotion;
+  let finalObject;
   if(reduce1 === reduce2 || reduce1 > reduce2){
-    promotion = 'type1';
+    finalObject = receiptObject1;
   }else{
-    promotion = 'type2';
+    finalObject = receiptObject2;
   }
-  return promotion;
+  return finalObject;
 }
 
 //生成清单
@@ -140,4 +132,4 @@ ${promotion}总计：${amount}元
 
 
 
-module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt, noPromotion, findBestCharge};
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt, findBestCharge};
