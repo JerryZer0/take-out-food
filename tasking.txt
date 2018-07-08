@@ -1,5 +1,5 @@
 1.格式化输入为id和数量(turnInToIdAndCount)
-    in:tags[String]
+    in:selectedItems[String]
     out:idAndCount[{id:String,count:number}...]
 2.完善订单的信息(completeCharge)
     in:idAndCount,allItems[{id: String, name: String, price: number}...]
