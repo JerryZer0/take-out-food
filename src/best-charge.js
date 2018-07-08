@@ -76,7 +76,18 @@ function amountInPromotion1(itemsList){
   return tempObject;
 }
 
-
+//计算价格方式二
+function amountInPromotion2(itemsList){
+  let tempAmount = 0;
+  let type = "满30减6元";
+  let reduce = 6;
+  for(item of itemsList){
+    tempAmount += item.subtotal; 
+  }
+  amount = tempAmount - reduce;
+  let tempObject = [{itemsList:itemsList},{type:type},{reduce:reduce},{amount:amount}];
+  return tempObject;
+}
 /**
  * 4.计算价格方式一(amountInPromotion1)
     in:orderItems,promotions{type: String, items: [String, String]}
@@ -89,4 +100,4 @@ function amountInPromotion1(itemsList){
     out:receiptToPrint
  */
 
-module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1};
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2};
