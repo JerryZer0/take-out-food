@@ -67,7 +67,7 @@ function amountInPromotion1(itemsList){
       if(item.id === promotionItem ){
         type += item.name;
         reduce += item.price/2;
-        type += ",";
+        type += "，";
         break;
       }
     }
@@ -84,9 +84,12 @@ function amountInPromotion1(itemsList){
 function amountInPromotion2(itemsList){
   let tempAmount = 0;
   let type = "满30减6元";
-  let reduce = 6;
+  let reduce = 0;
   for(let item of itemsList){
     tempAmount += item.subtotal; 
+  }
+  if(tempAmount>30){
+    reduce = 6
   }
   amount = tempAmount - reduce;
   let tempObject = [{itemsList:itemsList},{type:type},{reduce:reduce},{amount:amount}];
