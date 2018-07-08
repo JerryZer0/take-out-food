@@ -89,6 +89,31 @@ function amountInPromotion2(itemsList){
   return tempObject;
 }
 
+function noPromotion(itemsList){
+  let tempAmount = 0;
+  let type = "";
+  let reduce = 0;
+  for(let item of itemsList){
+    tempAmount += item.subtotal; 
+  }
+  amount = tempAmount;
+  let tempObject = [{itemsList:itemsList},{type:type},{reduce:reduce},{amount:amount}];
+  return tempObject;
+}
+
+function findBestCharge(receiptObject1,receiptObject2){
+  let reduce1 = receiptObject1[2].reduce;
+  let reduce2 = receiptObject2[2].reduce;
+  let promotion;
+  if(reduce1 === reduce2 || reduce1 > reduce2){
+    promotion = 'type1';
+  }else{
+    promotion = 'type2';
+  }
+  return promotion;
+}
+
+//生成清单
 function generateReceipt(receiptObject){
   let itemsList = receiptObject[0].itemsList;
   let type = receiptObject[1].type;
@@ -99,23 +124,20 @@ function generateReceipt(receiptObject){
   for(let item of itemsList){
     str += `${item.name} x ${item.count} = ${item.subtotal}元\n`
   }
-  let receiptToString = `============= 订餐明细 =============
-${str}-----------------------------------
-使用优惠:
+  let promotion ="";
+  if(reduce>0){
+    promotion = `使用优惠:
 ${type}，省${reduce}元
 -----------------------------------
-总计：${amount}元
+`
+  }
+  let receiptToString = `============= 订餐明细 =============
+${str}-----------------------------------
+${promotion}总计：${amount}元
 ===================================`;
   return receiptToString;
 }
-/**
- * 黄焖鸡 x 1 = 18元
-肉夹馍 x 2 = 12元
-凉皮 x 1 = 8元
- * 
- * 6.查找最佳优惠方式(findBestPromotion)
-    in：receipt1,receipt2
-    out:receiptToPrint
- */
 
-module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt};
+
+
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal,amountInPromotion1, amountInPromotion2, generateReceipt, noPromotion, findBestCharge};
