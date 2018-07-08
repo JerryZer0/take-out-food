@@ -1,4 +1,4 @@
-//const {loadAllItems} = require('./items');
+const {loadAllItems} = require('./items');
 
 function bestCharge(selectedItems) {
   let idAndCount = turnIntoIdAndCount(selectedItems);
@@ -26,8 +26,10 @@ function completeOrder(idAndCount){
     for(let item of allItems){
       if(orderItem.id === item.id){
         orderItem={
+          id : item.id,
           name : item.name,
-          price : item.price
+          price : item.price,
+          count : orderItem.count
         }
       }
     }
@@ -36,8 +38,15 @@ function completeOrder(idAndCount){
   return orderItems;
 }
 
+function calculateSubtotal(orderItems){
+  let ItemsList = [];
+  for(let item of orderItems){
+    item.subtotal = item.count*item.price;
+    ItemsList.push(item);
+  }
+  return ItemsList;
+}
 
 
 
-
-//module.export = {bestCharge};
+module.exports = {bestCharge, turnIntoIdAndCount, completeOrder, calculateSubtotal};

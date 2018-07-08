@@ -7,4 +7,4 @@ function loadPromotions() {
   }];
 }
 
-//module.export = {loadPromotions};
+module.exports = {loadPromotions};
